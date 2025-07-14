@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finance Tracker Dashboard</title>
+  <link rel="stylesheet" href="Dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">💸 Arpit's Finance Tracker</div>
+    <nav>
+      <a href="#">History</a>
+      <a href="#">Expenses</a>
+      <a href="#">Reports</a>
+      <a href="#">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <section class="form-section">
+      <h2>📊 Set Financial Goals</h2>
+      <form id="finance-form" class="finance-form">
+
+        <div class="form-group">
+          <label for="goal">Goal Amount (₹)</label>
+          <input type="number" id="goal" name="goal" placeholder="e.g. 100000" required />
+        </div>
+
+        <div class="form-group">
+          <label for="income">Monthly Income (₹)</label>
+          <input type="number" id="income" name="income" placeholder="e.g. 25000" required />
+        </div>
+
+        <div class="form-group">
+          <label for="expenses">Monthly Expenses (₹)</label>
+          <input type="number" id="expenses" name="expenses" placeholder="e.g. 15000" required />
+        </div>
+
+        <div class="form-group">
+          <label for="savings">Savings Goal (%)</label>
+          <input type="number" id="savings" name="savings" placeholder="e.g. 20" min="0" max="100" required />
+        </div>
+
+        <div class="form-group">
+          <label for="date">Tracking Start Date</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+
+        <button type="submit">✅ Save Goal</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Arpit Singh | Built with 💻 and ☕</p>
+  </footer> 
+
+  <script src="Dashboard.js"></script>
+
+</body>
+</html>
