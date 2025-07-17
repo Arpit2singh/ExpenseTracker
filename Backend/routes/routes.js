@@ -1,11 +1,27 @@
-import express from "express"  
+// routes/user.routes.js
+import express from "express";
+import upload from "../middleware/multer.js";
+import ApiResponse from "../utils/ApiResponse.js";
+const router = express.Router();
 
-const app = express() ; 
+router.route("/register").post(
+  upload.fields([{ name: "avatar", maxCount: 1 }]),
+  (req, res) => {
+    res.send(new ApiResponse(202 , "hey i is the /register" ) );
+  }
+);
 
-app.get("/" , (req ,res)=>{
-    res.send("hey all working fine ") ; 
-})
+router.route("/Login").post((req, res) => {
+  res.send("✅ Login route hit!");
+});
 
-app.listen(process.env.HOST , ()=>{
-    console.log(`server is listening on the port ${process.env.HOST}`)
-})
+router.route("/History").post((req, res) => {
+  res.send("📜 History route");
+});
+
+router.route("/expense").post((req, res) => {
+  console.log("📦 Expense route hit");
+  res.send("Expense received");
+});
+
+export default router;
