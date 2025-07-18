@@ -40,6 +40,6 @@ const expenseSchema = new mongoose.Schema({
         type : String ,
     }
   
-}) 
+},{timestamps:true}) 
 
 export const Expense = mongoose.model("Expense" , expenseSchema) ; 
