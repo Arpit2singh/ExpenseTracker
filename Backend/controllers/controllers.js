@@ -13,8 +13,8 @@ import uploadonCloudinary from "../utils/cloudinary.js";
 const generateRefreshAndAcessToken = async(UserId) =>{
     try {
         const user = await User.findById(UserId) ; 
-        const refreshToken = user.generateAccessToken() ; 
-        const  accessToken = user.generateRefreshToken() ; 
+        const refreshToken = user.generateRefreshToken() ; 
+        const  accessToken = user.generateAccessToken() ; 
         user.refreshToken = refreshToken ; 
         await user.save({validateBeforeSave : false}) ; 
         return {refreshToken , accessToken} ; 
@@ -55,7 +55,7 @@ const registerUser = asyncHandler(async(req , res)=>{
    }
 
     
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or : [{username} , {email}] 
     })
 
@@ -94,9 +94,10 @@ const registerUser = asyncHandler(async(req , res)=>{
 
   })
 
+  console.log(user) ;
   // user checking ; 
 
-  const userSelected = User.findById(user._id).select(
+  const userSelected = await User.findById(user._id).select(
     "-password -refreshToken"
   )
 
@@ -126,7 +127,7 @@ const LoginUser = asyncHandler(async(req , res)=>{
     }
     
     
-    const user = User.findOne({
+    const user = await User.findOne({
         $or : [{username} , {email}]
     })
 
@@ -159,7 +160,7 @@ const LoginUser = asyncHandler(async(req , res)=>{
 })
 
 const LogoutUser = asyncHandler(async(req ,res)=>{
-    const user = User.findByIdAndUpdate(req.body._id ,
+    const user = await User.findByIdAndUpdate(req.body._id ,
      {
 $set:{
     refreshToken : undefined 
@@ -190,7 +191,7 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
     }
 
     try {
-        const decodedToken = jwt.verify(incomingRefreshToken , process.env.refreshAccessToken) ; 
+        const decodedToken = jwt.verify(incomingRefreshToken , process.env.REFRESH_TOKEN_SECRET) ; 
         
         const user = await User.findById(decodedToken._id) ; 
     
@@ -209,7 +210,7 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
     
         const {accessToken , newRefreshToken } = await generateRefreshAndAcessToken(user._id) ; 
     
-        return res.status(200).cookie("accessToken" , accessToken ,options).cookie("refreshToken" , refreshToken , options).json(
+        return res.status(200).cookie("accessToken" , accessToken ,options).cookie("refreshToken" , newRefreshToken , options).json(
             new ApiResponse(200 , {} , "Access token refreshed ") 
         )
     
@@ -231,7 +232,8 @@ const changeCurrentPassword = asyncHandler(async(req , res)=>{
 })
 
 const getuser = asyncHandler(async(req , res)=>{
-    return res.status(200 , req.user , "user fetched Successfully") ; 
+    return  res.status(200).json(new ApiResponse(200, req.user, "User fetched Successfully"))
+; 
 })
 
 
