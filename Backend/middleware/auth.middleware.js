@@ -3,16 +3,15 @@ import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
+
 const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
-        console.log( process.env.ACCESS_TOKEN_SECRET) ;
-        const authHeader = req.header("Authorization");
-        let token = req.cookies?.accessToken;
-
-        if (!token && authHeader && authHeader.startsWith("Bearer ")) {
-            token = authHeader.split(" ")[1];
+        console.log(process.env.ACCESS_TOKEN_SECRET);
+        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+        if (!token) {
+            throw new ApiError(401, "Unauthorized request")
         }
-
+        console.log(token) ;
         if (!token || typeof token !== "string") {
             throw new ApiError(401, "Access token not found or invalid");
         }

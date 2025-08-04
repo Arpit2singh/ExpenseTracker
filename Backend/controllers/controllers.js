@@ -11,11 +11,12 @@ import uploadonCloudinary from "../utils/cloudinary.js";
 import path from "path" ; 
 import { log  } from "console"; 
 import  jwt  from "jsonwebtoken";
-
+import { Contact } from "../models/Contactus.model.js";
 
 const generateRefreshAndAcessToken = async (UserId) => {
     try {
         const user = await User.findById(UserId);
+        console.log(user._id) ;
         const refreshToken = user.generateRefreshToken();
         const accessToken = user.generateAccessToken();
         user.refreshToken = refreshToken;
@@ -105,7 +106,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     })
 
-    
+
     console.log(password);
 
     console.log(user);
@@ -174,6 +175,7 @@ const LoginUser = asyncHandler(async (req, res) => {
 })
 
 const LogoutUser = asyncHandler(async (req, res) => {
+      
     const user = await User.findByIdAndUpdate(req.body._id,
         {
             $set: {
@@ -189,7 +191,10 @@ const LogoutUser = asyncHandler(async (req, res) => {
         secure: true,
     }
 
-    return res.status(200).clearCookie("accessToken", options).clearCookie("refreshToken", options).json(
+    return res.status(200).
+    clearCookie("accessToken", options).
+    clearCookie("refreshToken", options).
+    json(
         new ApiResponse(200, {}, "user logged out successfully")
 
     )
@@ -268,6 +273,42 @@ const updateAccountDetail = asyncHandler(async (req, res) => {
     ).select("-password")
 
     return res.status(200).json(new ApiResponse(200, "User details updated Successfully"))
+}) 
+
+const contactus = asyncHandler(async (req ,res)=>{
+          // find the user  .. 
+          // use the user object name and there id for the further use   
+          // while creating the user use the name as an object  ; 
+          // data come 
+          // create a object 
+          // insert the object by create  
+          // make the mongodb connection  
+          // mongodb .save  with all the details  
+          // return response (200 ).json({"ok"}) ; 
+          console.log(req.body) ; 
+          const {Query , phoneNumber , email , fullname} = req.body    ;
+           if (!Query || !phoneNumber || !email || !fullname) {
+        throw new ApiError(400, "All fields are required");
+    }
+          console.log(Query) 
+          console.log(phoneNumber) 
+          console.log(email) 
+          console.log(fullname)  ; 
+         
+          const contact = await Contact.create({
+            Query , 
+            phoneNumber , 
+            email , 
+            fullname , 
+          }) 
+          
+          if(!contact){
+            throw new ApiError(400 , "creation of message disrupted")
+          }
+        else{
+            return res.status(200).json( new ApiResponse(200 ,{} , "data stored Successfully") )
+        }
+
 })
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
@@ -293,6 +334,6 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 
 export {
     generateRefreshAndAcessToken, registerUser, LoginUser, LogoutUser, refreshAccessToken, changeCurrentPassword
-    , getuser, updateAccountDetail, updateUserAvatar
+    , getuser, updateAccountDetail, updateUserAvatar , contactus , 
 }
 
