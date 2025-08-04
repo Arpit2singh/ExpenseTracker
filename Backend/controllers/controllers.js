@@ -295,6 +295,7 @@ const contactus = asyncHandler(async (req ,res)=>{
           console.log(email) 
           console.log(fullname)  ; 
           console.log(fullname) ;
+          console.log("first")
          
           const contact = await Contact.create({
             Query , 
