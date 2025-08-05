@@ -3,31 +3,43 @@
 import mongoose from "mongoose";
 
 const expenseSchema = new mongoose.Schema({
+
+    userId :{
+        type : String , 
+        required : true  ,
+    },
     
-    date :{
-        type : Number , 
+    date_from :{
+        type : Date , 
+        required : true , 
+
+    } , 
+     date_to :{
+        type : Date , 
         required : true , 
 
     } , 
 
-    savings :{
-        type : Number , 
-        required : true , 
+ expenses: [
+    {
+      title: {
+        type: String,
+        required: true,
+      },
+      amount: {
+        type: Number,
+        required: true,
+      },
+    }
+  ],
 
-    }, 
-    
-    expenses :{
-        type : Number , 
-        required : true , 
-
-    } , 
     
     income :{
         type : Number , 
         required : true , 
 
     },
-     goal :{
+     goalAmount :{
         type : Number , 
         required : true , 
 
