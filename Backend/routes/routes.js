@@ -5,7 +5,8 @@ import { refreshAccessToken ,LogoutUser ,LoginUser ,registerUser , contactus } f
 
 import upload from "../middleware/multer.js"; 
 import verifyJWT from "../middleware/auth.middleware.js"; 
-import expenseData from "../controllers/controllers.expense.js";
+import expenseData from "../controllers/controllers.expense.js"; 
+import getExpenseData from "../controllers/getAllExpense.controlelr.js";
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.route("/logout").post(verifyJWT ,  LogoutUser);
 router.route('/refresh-token').post(refreshAccessToken) 
 router.route('/contactus').post(contactus) ;  
 router.route('/expenseData').post(verifyJWT , expenseData )
+router.route('/allExpense').get(verifyJWT , getExpenseData )
 // router.route("/history").post(userHistory);
 // router.route("/expense").post(addExpense);
 
