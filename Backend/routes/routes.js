@@ -7,7 +7,7 @@ import upload from "../middleware/multer.js";
 import verifyJWT from "../middleware/auth.middleware.js"; 
 import expenseData from "../controllers/controllers.expense.js"; 
 import getExpenseData from "../controllers/getAllExpense.controlelr.js";
-
+import editExpense from "../controllers/editExpense.contorller.js";
 const router = express.Router();
 
 router.route("/register").post(
@@ -21,6 +21,7 @@ router.route('/refresh-token').post(refreshAccessToken)
 router.route('/contactus').post(contactus) ;  
 router.route('/expenseData').post(verifyJWT , expenseData )
 router.route('/allExpense').get(verifyJWT , getExpenseData )
+router.route('/update-expense').put(verifyJWT ,editExpense ) ; 
 // router.route("/history").post(userHistory);
 // router.route("/expense").post(addExpense);
 
